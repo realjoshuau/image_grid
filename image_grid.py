@@ -61,11 +61,19 @@ parser = argparse.ArgumentParser(description='Create a PDF from a folder of imag
 parser.add_argument('folder', type=str, help='Folder containing images')
 parser.add_argument('--output', type=str, help='Output PDF file')
 parser.add_argument('--margin', action='store_true', help='Add margin between images')
+parser.add_argument('--images_per_page', type=int, help='Number of images per page')
+parser.add_argument('--page_width', type=int, help='Width of the page')
+parser.add_argument('--page_height', type=int, help='Height of the page')
+parser.add_argument('--margin_size', type=int, help='Size of the margin')
 
 args = parser.parse_args()
 folder = args.folder
-output = args.output
-margin = args.margin
+output = args.output if args.output else "output.pdf"
+margin = args.margin if args.margin else USE_MARGIN
+page_width = args.page_width if args.page_width else 2550
+page_height = args.page_height if args.page_height else 3300
+images_per_page = args.images_per_page if args.images_per_page else 6
+margin_size = args.margin_size if args.margin_size else 30
 
 image_paths = os.listdir(folder)
 for i in range(len(image_paths)):
@@ -74,9 +82,9 @@ for i in range(len(image_paths)):
 print(f"Found {len(image_paths)} images")
 
 if margin:
-    pages = create_pages_margin(image_paths)
+    pages = create_pages_margin(image_paths, page_size=(page_width, page_height), images_per_page=images_per_page, margin=margin_size)
 else:
-    pages = create_pages(image_paths)
+    pages = create_pages(image_paths, page_size=(page_width, page_height), images_per_page=images_per_page)
 
 output_path = output if output else "output.pdf"
 pages[0].save(output_path, save_all=True, append_images=pages[1:])
