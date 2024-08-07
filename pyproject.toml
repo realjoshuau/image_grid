@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "image-grid"
+version = "0.1.0"
+description = ""
+authors = ["Josh <102478723+realjoshuau@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "image_grid"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pillow = "^10.4.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
